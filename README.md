@@ -5,3 +5,4 @@ You can see [official documentations](https://docs.ezmeral.hpe.com/index.html) i
 
 ## Index
 - [Ezmeral Unified Analytics](ezua)
+- [Ezmeral Data Fabric](ezdf)
