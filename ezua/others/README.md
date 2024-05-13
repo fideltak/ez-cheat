@@ -14,3 +14,17 @@ You can use below command to encode.
 ```bash
 cat .ssh/id_rsa | base64 | tr -d  \\n 
 ```
+
+## Keycloak authorization issue after installation
+If you cannot login to EzUA as admin user, check user roles in Keycloak.
+
+Keycloak URL will be *https://keycloak.\<YOUR-DOMAIN\>*. The username is *admin* and you can get password by below command.
+
+```bash
+$ kubectl get secret admin-pass -o jsonpath={.data.password} -n keycloak |base64 -d
+
+```
+
+After login to Keycloak, check user roles and consent.
+![](pics/keycloak/roles.png)
+![](pics/keycloak/consents.png)
