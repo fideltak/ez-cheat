@@ -1,4 +1,5 @@
-# Installation note for KVM
+# Installation note on KVM
+\* no need to do for EzUA 1.4
 ## Internal EDF disk
 You may see CLDB *CrashLoopBackOff* during UA installation on the phase of set up EDF.
 
