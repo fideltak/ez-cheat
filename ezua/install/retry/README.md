@@ -346,7 +346,7 @@ NAME                                             READY   STATUS    RESTARTS     
 op-addonproc-ua-tokyo01                          2/2     Running   0               20h  <= this one
 op-clustercreate-ua-tokyo01                      1/1     Running   0               25h
 ua-tokyo01-controller-manager-799f88cfb5-w4fzj   2/2     Running   9 (6h59m ago)   25h
-w-op-workload-deploy-ua-tokyo01                  2/2     Running   0               20h  <= this one terminated
+w-op-workload-deploy-ua-tokyo01                  2/2     Running   0               20h  <= this one
 ```
 
 After passing installation of *HPE Ezmeral Unified Analytics Controller* in the phase of "Application Service", restart pod **local-s3-deployment** if you delete some **Secrets** in the previous step.
