@@ -311,7 +311,7 @@ superset                   in-cluster   true      installed
 ua-monitor                 in-cluster   true      installed  
 
 $ kubectl delete ezad feast -n ezaddon-system
-
+$ kubectl delete -f ezkfworkloaddeploys.yaml
 ```
 
 Some pods will be terminated in the namespace \<YOUR-CLUSTER-NAME-NAMESPACE\> on the coordinator cluster.
