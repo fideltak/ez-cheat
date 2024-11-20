@@ -1,0 +1,29 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: dvd-postgresql
+spec:
+  instances: 1
+  storage:
+    size: 20Gi
+  managed:
+    roles:
+    - name: admin
+      ensure: present
+      comment: For Admin
+      login: true
+      superuser: true
+      passwordSecret:
+        name: postgresql-user-admin
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgresql-user-admin
+  labels:
+    cnpg.io/reload: "true"
+type: kubernetes.io/basic-auth
+data:
+  username: YWRtaW4=
+  password: cGFzc3dvcmQ=
