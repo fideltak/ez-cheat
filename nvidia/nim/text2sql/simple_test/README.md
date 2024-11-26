@@ -88,7 +88,8 @@ kubectl create secret docker-registry nvidia-registry -n YOUR-NAMESPACE\
 
 K8s manifest for NIM *llama-3-sqlcoder-8b* model is [here](nim.yaml).
 Insert your NGC token into this manifest.
-And if you dont have *ingress controller*, remove that section.
+And if you dont have *ingress controller*, remove that section.  
+Note: You can use *NIM Operator* to deploy NIM service withous [this custom manifest](nim.yaml). Check this [article](../../operator). 
 
 ```yaml
 env:
