@@ -171,7 +171,7 @@ NAME                  STATUS   PVC                   AGE
 llama-3-sqlcoder-8b   Ready    llama-3-sqlcoder-8b   11m
 ```
 
-## nimservices 
+### nimservices 
 To deploy NIM service, we can use the CRD *nimservices*. [This](nim-service-llama-3-sqlcoder-8b.yaml) is the manifest.  
 
 ```bash
