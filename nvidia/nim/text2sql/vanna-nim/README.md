@@ -32,8 +32,9 @@ I'm lazy so I came up with an idea to use NIM as a local LLM service. NIM can pr
 ```
 
 ## NIM Installation.
-Please see [this article](../simple_test).  
+Please see [this article](../simple_test) or [this one](../../operator).  
 And I used a PostgreSQL with [DVD rental dummy data](https://neon.tech/postgresql/postgresql-getting-started/postgresql-sample-database).
+
 
 ## How to implement
 Nim has OpenAI API interface as default. You can make OpenAPI client for NIM and pass the client to Vanna framework.  
