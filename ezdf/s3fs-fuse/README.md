@@ -87,11 +87,10 @@ No need to be conscious of S3 storage. It's just linux filesystem.
 When something wrong, you can check debug log.
 
 ```bash
-$ mkdir /mnt/objectstore
-$ s3fs s3fs-bucket /mnt/objectstore \
+$ s3fs BUCKET_NAME /mnt/objectstore \
 -o passwd_file=/root/.passwd-s3fs \
 -o use_path_request_style \
--o url=https://10.4.16.91:9000 \
+-o url=https://OBJECT_STORE_IP:9000 \
 -o ssl_verify_hostname=0 \
 -o no_check_certificate \
 -o dbglevel=debug -f 
