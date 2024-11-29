@@ -1,4 +1,4 @@
-# Connecting HPE Ezmeral Data Fabric Objectstore from S3fs-fuse Client
+# Connecting to HPE Ezmeral Data Fabric Objectstore from S3fs-fuse Client
 
 ## Test Environment
 - HPE Ezmeral Data Fabric: 7.9.0
