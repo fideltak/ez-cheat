@@ -326,7 +326,7 @@ w-op-workload-deploy-ua-tokyo01                  2/2     Running   0            
 ```
 
 
-If you are at the phase of "Application Service", need to remove below **Secrets** because the orchestrator pod recreates these **Secrets** again during re-running.
+**[Before 1.4.x vesrion]** If you are at the phase of "Application Service", need to remove below **Secrets** because the orchestrator pod recreates these **Secrets** again during re-running.
 
 ```bash
 $ kubectl delete secret -n ezdata-system objectstorevol local-s3-secret   
