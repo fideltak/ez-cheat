@@ -24,12 +24,12 @@ The target UA cluster name in this book is **hpe-ua**.
 * I have an alias of *kubectl* as *k*.
 
 ```bash
-$ ezkfdeploys -A
+$ k get ezkfdeploys -A
 NAMESPACE   NAME            CLUSTERNAME   WORKLOADTYPE   STATUS     FAILUREREASON   ADDITIONALINFO
 ezkf-mgmt   ezkf-mgmt       ezkf-mgmt     ezfab          complete                   
 hpe-ua      deploy-hpe-ua   hpe-ua        ezua           complete 
 
-$ k delete -n hpe-ua deploy-hpe-ua
+$ k delete ezkfdeploys -n hpe-ua deploy-hpe-ua
 
 ```
 ```bash

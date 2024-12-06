@@ -1,4 +1,4 @@
-# Installation notes for AWS
+# Installation notes on AWS
 
 ## Security Group Setting
 The port requirement is [here](https://docs.ezmeral.hpe.com/unified-analytics/13/Installation/ua-ports.html).   

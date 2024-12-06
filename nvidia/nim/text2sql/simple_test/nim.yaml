@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llama3-sqlcoder8b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llama3-sqlcoder8b
+  template:
+    metadata:
+      labels:
+        app: llama3-sqlcoder8b
+    spec:
+      containers:
+      - name: llama3-sqlcoder8b
+        image: nvcr.io/nim/defog/llama-3-sqlcoder-8b:1.2
+        ports:
+        - containerPort: 8000
+        env:
+        - name: NGC_API_KEY
+          value: '' # YOUR NGC ACCESS TOKEN
+        resources:
+          limits:
+            nvidia.com/gpu: "1"
+          requests:
+            nvidia.com/gpu: "1"
+      imagePullSecrets:
+      - name: nvidia-registry
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llama3-sqlcoder8b
+spec:
+  selector:
+    app: llama3-sqlcoder8b
+  ports:
+  - port: 80
+    targetPort: 8000
+    name: http
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: llama3-sqlcoder8b
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: llama3-sqlcoder8b.tak-motors.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: llama3-sqlcoder8b
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
