@@ -12,7 +12,7 @@ This is the procedure to install Ezmeral Unified Analytics(EzUA) 1.5.2 with the 
 
 ## Installation
 ### on External Data Fabric Node
-Before installing EzUA, creating tickets, check CA certs and generate a credential for objectstore. These are used in EzUA installation. So copy and paste them to your notebook.  
+Before installing EzUA, creating a ticket, check CA certs and generate a credential for objectstore. These are used in EzUA installation. So copy and paste them to your notebook.  
 [Reference](https://docs.ezmeral.hpe.com/unified-analytics/15/Installation/ezdf-storage.html)
 
 Creating a user **ezua** for EzUA.
