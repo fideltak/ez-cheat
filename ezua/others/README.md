@@ -1,4 +1,4 @@
-# Other topics
+# Other Tips
 
 ## Don't create namespace
 When you create your namespace by kubectl or somthing, it will be gone after about 24hours.  
