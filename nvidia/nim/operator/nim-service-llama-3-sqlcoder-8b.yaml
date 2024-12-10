@@ -18,6 +18,11 @@ spec:
   resources:
     limits:
       nvidia.com/gpu: 1
+      memory: 16Gi
+      cpu: 6000m
+    requests:
+      memory: 8Gi
+      cpu: 3000m      
   expose:
     service:
       type: ClusterIP
