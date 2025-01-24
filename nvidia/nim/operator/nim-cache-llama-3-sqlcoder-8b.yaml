@@ -1,0 +1,27 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMCache
+metadata:
+  name: llama-3-sqlcoder-8b
+spec:
+  source:
+    ngc:
+      modelPuller: nvcr.io/nim/defog/llama-3-sqlcoder-8b:1.2
+      pullSecret: ngc-secret
+      authSecret: ngc-api-secret
+      model:
+        engine: vllm
+  storage:
+    pvc:
+      create: false
+      name: llama-3-sqlcoder-8b
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: llama-3-sqlcoder-8b
+spec:
+  resources:
+    requests:
+      storage: 100G
+  accessModes:
+  - ReadWriteMany

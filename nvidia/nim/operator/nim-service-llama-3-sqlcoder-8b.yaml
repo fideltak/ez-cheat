@@ -1,0 +1,29 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMService
+metadata:
+  name: llama-3-sqlcoder-8b
+spec:
+  image:
+    repository: nvcr.io/nim/defog/llama-3-sqlcoder-8b
+    tag: '1.2'
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - ngc-secret
+  authSecret: ngc-api-secret
+  storage:
+    nimCache:
+      name: llama-3-sqlcoder-8b
+      profile: ''
+  replicas: 1
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+      memory: 16Gi
+      cpu: 6000m
+    requests:
+      memory: 8Gi
+      cpu: 3000m      
+  expose:
+    service:
+      type: ClusterIP
+      port: 8000
