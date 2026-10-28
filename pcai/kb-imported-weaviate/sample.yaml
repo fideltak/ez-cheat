@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+data:
+  API_KEY: ""
+  PASSWORD: "WEAVIATE_PASSWORD" #Base64 Encodig
+  USERNAME: "WEAVIATE_USER_NAME" #Base64 Encodig
+kind: Secret
+metadata:
+  name: my-weaviate-credentials
+  namespace: ezai-services
+type: Opaque
+---
+apiVersion: genai.hpe.com/v1alpha1
+kind: VectorStore
+metadata:
+  name: my-weaviate
+  namespace: ezai-services
+spec:
+  authSecret:
+    name: my-weaviate-credentials
+  description: My Weaviate VectorDB...
+  vectordb:
+    config:
+      grpcEndpoint: weaviate-grpc.my-weaviate.svc.cluster.local #Your imported Weaviate URL for GRPC
+      grpcPort: 50051
+      httpEndpoint: weaviate.my-weaviate.svc.cluster.local #Your imported Weaviate URL for HTTP
+      httpPort: 80
+    provider: weaviate
