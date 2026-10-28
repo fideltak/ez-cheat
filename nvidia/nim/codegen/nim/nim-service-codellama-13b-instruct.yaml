@@ -1,0 +1,55 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMService
+metadata:
+  name: codellama-13b-instruct
+spec:
+  image:
+    repository: nvcr.io/nim/meta/codellama-13b-instruct
+    tag: '1.2.2'
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - ngc-secret
+#  env:
+#  - name: MAX_MODEL_LEN
+#    value: "1024"
+#  - name: GPU_MEMORY_UTILIZATION
+#    value: "0.99"
+  authSecret: ngc-api-secret
+  storage:
+    nimCache:
+      name: codellama-13b-instruct
+      profile: ''
+  replicas: 1
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+      memory: 72Gi
+      cpu: 5000m
+    requests:
+      memory: 72Gi
+      cpu: 5000m      
+  expose:
+    service:
+      type: ClusterIP
+      port: 8000
+  nodeSelector:
+    nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: codellama-13b-instruct
+spec:
+  gateways:
+  - istio-system/ezaf-gateway
+  hosts:
+  - codellama-13b-instruct.ezua.fumi.jp
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: codellama-13b-instruct
+        port:
+          number: 8000

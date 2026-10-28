@@ -1,0 +1,29 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMCache
+metadata:
+  name: llama-3.1-8b-swallow-instruct
+spec:
+  source:
+    ngc:
+      modelPuller: nvcr.io/nim/tokyotech-llm/llama-3.1-swallow-8b-instruct-v0.1:1.3.2
+      pullSecret: ngc-secret
+      authSecret: ngc-api-secret
+      model:
+        engine: vllm
+  storage:
+    pvc:
+      create: false
+      name: llama-3.1-8b-base
+  gpuSelectors:
+    nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: llama-3.1-8b-swallow-instruct
+spec:
+  resources:
+    requests:
+      storage: 100G
+  accessModes:
+  - ReadWriteMany

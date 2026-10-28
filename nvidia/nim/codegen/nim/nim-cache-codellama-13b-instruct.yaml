@@ -1,0 +1,33 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMCache
+metadata:
+  name: codellama-13b-instruct
+spec:
+  source:
+    ngc:
+      modelPuller: nvcr.io/nim/meta/codellama-13b-instruct:1.2.2
+      pullSecret: ngc-secret
+      authSecret: ngc-api-secret
+      model:
+        #profiles:
+        #- all
+        engine: tensorrt_llm
+        gpus:
+        - product: "a100"
+  storage:
+    pvc:
+      create: false
+      name: codellama-13b-instruct
+  gpuSelectors:
+    nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: codellama-13b-instruct
+spec:
+  resources:
+    requests:
+      storage: 200G
+  accessModes:
+  - ReadWriteMany

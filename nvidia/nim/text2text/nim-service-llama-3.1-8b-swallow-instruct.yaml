@@ -1,0 +1,52 @@
+apiVersion: apps.nvidia.com/v1alpha1
+kind: NIMService
+metadata:
+  name: llama-3-1-8b-swallow-instruct
+spec:
+  image:
+    repository: nvcr.io/nim/tokyotech-llm/llama-3.1-swallow-8b-instruct-v0.1
+    tag: '1.3.2'
+    pullPolicy: IfNotPresent
+    pullSecrets:
+      - ngc-secret
+  authSecret: ngc-api-secret
+  storage:
+    nimCache:
+      name: llama-3.1-8b-swallow-instruct
+      profile: ''
+  replicas: 1
+  resources:
+    limits:
+      nvidia.com/gpu: 1
+      memory: 64Gi
+      cpu: 6000m
+    requests:
+      memory: 64Gi
+      cpu: 6000m      
+  expose:
+    service:
+      type: ClusterIP
+      port: 8000
+  nodeSelector:
+    #nvidia.com/gpu.product: NVIDIA-A100-PCIE-40GB
+    nvidia.com/gpu.product: NVIDIA-L4
+    #nvidia.com/gpu.product: Quadro-RTX-6000
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: llama-3-1-8b-swallow-instruct
+spec:
+  gateways:
+  - istio-system/ezaf-gateway
+  hosts:
+  - llama-3-1-8b-swallow-instruct.ezua.fumi.jp
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: llama-3-1-8b-swallow-instruct
+        port:
+          number: 8000

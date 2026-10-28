@@ -1,9 +1,9 @@
 # ez-cheat
-This is a cheatsheat for [HPE Ezmeral Product](https://www.hpe.com/us/en/software.html) and Ezmeral related software.  
+This is a cheatsheat for [HPE Private Cloud AI](https://www.hpe.com/int/en/products/private-cloud/pcai.html) and related software.  
 Please note that this repository contents are not official.  
-You can see [official documentations](https://docs.ezmeral.hpe.com/index.html) if you need.
 
 ## Index
-- [Ezmeral Unified Analytics](ezua)
-- [Ezmeral Data Fabric](ezdf)
+- [HPE Private Cloud AI](pcai)
+- [HPE Ezmeral Unified Analytics](ezua)
+- [HPE Ezmeral Data Fabric](ezdf)
 - [Nvidia](nvidia)
