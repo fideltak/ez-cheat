@@ -1,9 +1,9 @@
 ---
 apiVersion: v1
 data:
-  API_KEY: ""
-  PASSWORD: "WEAVIATE_PASSWORD" #Base64 Encodig
-  USERNAME: "WEAVIATE_USER_NAME" #Base64 Encodig
+  API_KEY: "YOUR_WEAVIATE_API_TOKEN"
+  PASSWORD: ""
+  USERNAME: ""
 kind: Secret
 metadata:
   name: my-weaviate-credentials
@@ -21,8 +21,9 @@ spec:
   description: My Weaviate VectorDB...
   vectordb:
     config:
-      grpcEndpoint: weaviate-grpc.my-weaviate.svc.cluster.local #Your imported Weaviate URL for GRPC
-      grpcPort: 50051
-      httpEndpoint: weaviate.my-weaviate.svc.cluster.local #Your imported Weaviate URL for HTTP
-      httpPort: 80
+      # Weaviate Cloud client will add 'grpc-' to grpc endpoint
+      grpcEndpoint: weaviate-cloud-compatible.YOUR.AIE.DOMAIN
+      grpcPort: 443
+      httpEndpoint: weaviate-cloud-compatible.YOUR.AIE.DOMAIN
+      httpPort: 443
     provider: weaviate

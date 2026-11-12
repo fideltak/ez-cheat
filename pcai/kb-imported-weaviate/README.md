@@ -1,7 +1,7 @@
 [日本語](./README_JP.md)
 
 # Knowledge Base with imported Weaviate
-**Verified with version 202607**
+**Verified with version 202612**
 
 This article explains how to use an imported Weaviate instead of the shared Weaviate in Knowledge Base.
 
@@ -9,6 +9,34 @@ This article explains how to use an imported Weaviate instead of the shared Weav
 
 ### Importing Weaviate
 You can use the Import Framework to import Weaviate using a Helm chart available in [HPE's GitHub repository](https://github.com/ai-solution-eng/frameworks).
+
+You need to configure an API token for your Weaviate using a HELM value file like [the sample](./values.yaml) during installation.
+
+[The sample](./values.yaml) uses pre-configured API token.
+
+```bash
+kubectl -n YOUR_WEAVIATE_NAMESPACE create secret generic weaviate-api-key \\n  --from-literal=AUTHENTICATION_APIKEY_ALLOWED_KEYS="$(openssl rand -hex 32)"
+
+```
+
+### Making Istio VirtualService
+To allow the VectorStore Controller to connect to your Weaviate, create an Istio VirtualService.
+
+Define the VirtualService like [the sample](./vs.yaml).
+
+```bash
+kubectl apply -f vs.yaml
+```
+
+### Configure CA cert for the VectorStore Controller
+By default, the VectorStore Controller does not use the HPE AI Essentials CA when connecting to your imported Weaviate instance.
+
+Therefore, you need to configure the gRPC client to use the HPE AI Essentials CA by setting an environment variable.
+
+```bash
+kubectl -n ezai-services set env deployment/vectordb-svc \
+  GRPC_DEFAULT_SSL_ROOTS_FILE_PATH=/etc/ssl/certs/ca-certificates.crt
+```
 
 ### Making k8s custom resource
 HPE AI Essentials gives us a CRD for the vectorstores.
@@ -82,10 +110,10 @@ FIELDS:
     enum: Ready, InProgress, Failed, Deleting
 ```
 
-Making a CR to register imported Weaviate. You can use a samle yaml [here](sample.yaml).
+Making a CR to register imported Weaviate. You can use a samle yaml [here](vectorestore.yaml).
 
 ```bash
-kubectl apply -f sample.yaml
+kubectl apply -f vectorestore.yaml
 ```
 
 After applying, you can see the imported Weaviate as CR.
@@ -109,3 +137,4 @@ You can see the imported Weaviate on HPE AI Essentials dashboard.
 Now you can choose the imported Weaviate in *Selected external DB(s)*.
 
 ![](./pics/kb01.png)
+![](./pics/kb02.png)

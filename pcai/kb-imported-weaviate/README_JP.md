@@ -1,7 +1,7 @@
 [English](./README.md)
 
 # Knowledge Base with imported Weaviate
-**202607バージョンで検証**
+**202612バージョンで検証**
 
 Knowledge Baseで共有Weaviateでなく、インポートしたWeaviateを利用する方法を記載しています。
 
@@ -9,6 +9,34 @@ Knowledge Baseで共有Weaviateでなく、インポートしたWeaviateを利�
 
 ### Weaviateのインポート
 Weaviateのインポートについては[HPE GitHub](https://github.com/ai-solution-eng/frameworks)を利用できます。
+
+API Tokenに対する認証が必要なので、[サンプル](./values.yaml)のような設定をしてください。
+
+[サンプル](./values.yaml)では事前に作成したTokenを利用しています。
+
+```bash
+kubectl -n YOUR_WEAVIATE_NAMESPACE create secret generic weaviate-api-key \\n  --from-literal=AUTHENTICATION_APIKEY_ALLOWED_KEYS="$(openssl rand -hex 32)"
+
+```
+
+### Istio VirtualServiceの作成
+内部のベクタストアコントローラーからインポートしたWeaviateにアクセスするためのVirtualServiceを作成します。
+
+[サンプル](./vs.yaml)のようなVirtualServiceを定義してください。
+
+```bash
+kubectl apply -f vs.yaml
+```
+
+### ベクタストアコントローラーのCA証明書設定
+インポートされたWeaviateについて、内部のベクタストアコントローラーのGRPCクライアントはHPE AI EssentialsのCA証明書をデフォルトでは使いません。
+
+そのため、GRPCに対してHPE AI EssentialsのCA証明書を使うように環境変数を設定します。
+
+```bash
+kubectl -n ezai-services set env deployment/vectordb-svc \
+  GRPC_DEFAULT_SSL_ROOTS_FILE_PATH=/etc/ssl/certs/ca-certificates.crt
+```
 
 ### k8sカスタムリソースの作成
 HPE AI EssentialsはベクタストアのためのCRDを用意しており、このCRDを活用してインポートしたWeaviateをHPE AI Essentialsに登録します。
@@ -82,10 +110,10 @@ FIELDS:
     enum: Ready, InProgress, Failed, Deleting
 ```
 
-カスタムリソースを[サンプルのYAML](sample.yaml)を利用して作成してください。
+カスタムリソースを[サンプルのYAML](vectorestore.yaml)を利用して作成してください。
 
 ```bash
-kubectl apply -f sample.yaml
+kubectl apply -f vectorestore.yaml
 ```
 
 作成後、インポートしたWeaviateが見えるか確認します。
@@ -109,3 +137,4 @@ HPE AI Essentialsダッシュボードでも確認できます。
 *Selected external DB(s)*項目にインポートしたWeaviateが選択できるようになっています。
 
 ![](./pics/kb01.png)
+![](./pics/kb02.png)

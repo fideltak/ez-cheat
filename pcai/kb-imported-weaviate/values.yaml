@@ -1,0 +1,14 @@
+authentication:
+  anonymous_access:
+    enabled: false
+
+env:
+  AUTHENTICATION_APIKEY_ENABLED: "true"
+  AUTHENTICATION_APIKEY_USERS: "admin-user"
+
+envSecrets:
+  AUTHENTICATION_APIKEY_ALLOWED_KEYS: weaviate-api-key
+ezua:
+  virtualService:
+    endpoint: "weaviate.YOUR.AIE.DOMAIN"
+    istioGateway: "istio-system/ezaf-gateway"
