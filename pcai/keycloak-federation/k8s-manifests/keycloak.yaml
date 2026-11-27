@@ -1,0 +1,105 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: mykeycloak
+  namespace: keycloak
+spec:
+  instances: 1
+
+  image: quay.io/keycloak/keycloak:25.0.6
+  startOptimized: false
+
+  hostname:
+    hostname: https://mykeycloak.example.com #CHANGE to your AIE domain
+    strict: true
+
+  http:
+    httpEnabled: true
+    httpPort: 8080
+
+  proxy:
+    headers: xforwarded
+
+  ingress:
+    enabled: false
+
+  db:
+    vendor: postgres
+    host: mykeycloak-cluster-rw.keycloak.svc.cluster.local
+    port: 5432
+    database: mykeycloak
+    usernameSecret:
+      name: mykeycloak-cluster-app
+      key: username
+    passwordSecret:
+      name: mykeycloak-cluster-app
+      key: password
+
+  unsupported:
+    podTemplate:
+      spec:
+        containers:
+          - name: keycloak
+            env:
+              - name: PCAI_UPSTREAM_ISSUER
+                value: "https://keycloak.example.com/realms/UA"  #CHANGE to your AIE domain
+
+              - name: PCAI_UPSTREAM_AUDIENCE
+                value: "ua"
+
+              - name: PCAI_UPSTREAM_JWKS_URL
+                value: "https://keycloak.example.com/realms/UA/protocol/openid-connect/certs"  #CHANGE to your AIE domain
+
+              - name: PCAI_AUTO_REGISTER
+                value: "true"
+
+              - name: PCAI_SYNC_USER_ATTRIBUTES
+                value: "true"
+            volumeMounts:
+              - name: authenticator
+                mountPath: /opt/keycloak/providers/pcai-downstream-authenticator-0.1.0.jar
+                subPath: pcai-downstream-authenticator-0.1.0.jar
+                readOnly: true
+
+        volumes:
+          - name: authenticator
+            configMap:
+              name: mykeycloak-authenticator-jar
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: mykeycloak-auth-policy
+  namespace: istio-system
+spec:
+  action: CUSTOM
+  provider:
+    name: oauth2-proxy
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - mykeycloak.example.com #CHANGE to your AIE domain
+            paths:
+              - /realms/test/protocol/openid-connect/auth
+              - /realms/test/login-actions/*
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: mykeycloak
+  namespace: keycloak
+spec:
+  hosts:
+    - mykeycloak.example.com #CHANGE to your AIE domain
+  gateways:
+    - istio-system/ezaf-gateway
+  http:
+    - route:
+        - destination:
+            host: mykeycloak-service.keycloak.svc.cluster.local
+            port:
+              number: 8080

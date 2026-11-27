@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: weaviate-cloud-compatible
+  namespace: YOUR_WEAVIATE_NAMESPACE
+spec:
+  hosts:
+    - weaviate-cloud-compatible.YOUR.AIE.DOMAIN
+  gateways:
+    - istio-system/ezaf-gateway
+  http:
+    - route:
+        - destination:
+            host: weaviate.YOUR_WEAVIATE_NAMESPACE.svc.cluster.local
+            port:
+              number: 80
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: weaviate-grpc-cloud-compatible
+  namespace: YOUR_WEAVIATE_NAMESPACE
+spec:
+  hosts:
+    - grpc-weaviate-cloud-compatible.YOUR.AIE.DOMAIN
+  gateways:
+    - istio-system/ezaf-gateway
+  http:
+    - route:
+        - destination:
+            host: weaviate-grpc.YOUR_WEAVIATE_NAMESPACE.svc.cluster.local
+            port:
+              number: 50051
