@@ -1,4 +1,5 @@
 .*DS*
+.*
 bin/
 configs/
 __pycache__
@@ -6,3 +7,5 @@ __pycache__
 !.gitignore
 !.gitkeep
 .env
+target/
+.test/
