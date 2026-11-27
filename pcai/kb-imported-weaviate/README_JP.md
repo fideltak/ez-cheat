@@ -1,5 +1,7 @@
 [English](./README.md)
 
+[202607 version](./README_202607_JP.md)
+
 # Knowledge Base with imported Weaviate
 **202612バージョンで検証**
 
